@@ -1,0 +1,17 @@
+License:
+  These routine are copyrighted by Shanjie Zhang and Jianming Jin. However, 
+  they give permission to incorporate thes routines into a user program 
+  provided that the copyright is acknowledged.
+
+Modified:
+ 31 July 2012
+
+Author:
+  Shanjie Zhang, Jianming Jin
+
+Reference:
+  Shanjie Zhang, Jianming Jin,
+  Computation of Special Functions,
+  Wiley, 1996,
+  ISBN: 0-471-11963-6,
+  LC: QA351.C45.
