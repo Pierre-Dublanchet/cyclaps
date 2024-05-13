@@ -1,7 +1,7 @@
 FC=mpif90
 FCFLAGS=-O5
-NETCDF=/opt/homebrew/Cellar/netcdf/4.9.2_1
-NETCDFF=/opt/homebrew/Cellar/netcdf-fortran/4.6.1
+NETCDF=/usr
+NETCDFF=/usr
 INC_SF=./src/special_functions/
 GEOM=$(word 2, $(subst _, ,$(exec)))
 KERNEL=$(word 3, $(subst _, ,$(exec)))
@@ -13,16 +13,10 @@ SRC_DIRS = $(sort $(dir ./src/ ./src/cfgio/ ./src/fft/ ./src/special_functions/)
 vpath %.f90 $(SRC_DIRS)
 vpath %.f $(SRC_DIRS)
 
-OBJS_IN=string_conv_mod.o cfgio_mod.o
-
 ifeq "$(KERNEL)" "freesurface"
-	OBJS := mod_cst_fault_rns.o libcfgio.a
+	OBJS := mod_cst_fault_rns.o string_conv_mod.o cfgio_mod.o
 else
-	OBJS := mod_cst_fault_rns.o libcfgio.a zfft1d.o factor.o pfactor.o fft235.o kernel.o
-endif
-
-ifeq "$(KERNEL)" "cr"
-	OBJS :=  $(OBJS) libspecial_functions.a
+	OBJS := mod_cst_fault_rns.o string_conv_mod.o cfgio_mod.o zfft1d.o factor.o pfactor.o fft235.o kernel.o
 endif
 
 ifeq "$(PP)" "pnl"
@@ -46,22 +40,16 @@ ifneq "$(KERNEL)" "freesurface"
 endif
 
 OBJS := $(OBJS) $(exec).o
-#OBJS_FILES = $(patsubst %.o,./obj/%.o,$(OBJS))
-#OBJS_LIB_FILES = $(patsubst %.a,./lib/%.a,$(OBJS_FILES))
+
+ifeq "$(KERNEL)" "cr"
+	OBJS :=  $(OBJS) libspecial_functions.a
+endif
 
 do: $(exec)
-#	rm -f ./*.o ./*.a ./*.mod
-	@echo $(NETCDF)
-#@echo $(SRC_DIRS)
-#@echo $(GEOM) 
-#@echo $(KERNEL)
-#@echo $(SLAW)
-#@echo $(PP)
-#@echo $(SC)
-#@echo $(OBJS)
 
 $(exec) : $(OBJS)
-	$(FC) $(FCFLAGS) $^ -L$(NETCDF)/lib -lnetcdf -L$(NETCDFF)/lib -lnetcdff -o $@ 
+	#$(FC) $(FCFLAGS) $^ -L$(NETCDF)/lib -lnetcdf -L$(NETCDFF)/lib -lnetcdff -o $@ 
+	$(FC) $(FCFLAGS) $^ -lnetcdf -lnetcdff -o $@ 
 
 %.o : %.f90
 	$(FC) $(FCFLAG) -c -I$(NETCDFF)/include -I$(NETCDF)/include $< 
@@ -75,9 +63,9 @@ libcfgio.a : $(OBJS_IN)
 
 libspecial_functions.a :
 	@echo 'libspecial_function build'
-#	cd $(INC_SF); \
-#	$(FC) -c f90split.f90; \
-#	$(FC) f90split.o -o f90split; \
+	cd $(INC_SF); \
+	$(FC) -c f90split.f90; \
+	$(FC) f90split.o -o f90split; \
 	mkdir temp; \
 	cd temp; \
 	../f90split ../special_functions.f90; \
@@ -93,6 +81,3 @@ libspecial_functions.a :
 
 clean:
 	rm -f ./*.o ./*.a ./*.mod
-
-cleano: 
-	rm -f ./*.o ./*.mod
