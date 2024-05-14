@@ -123,3 +123,18 @@ f\sigma_e = \tau_0 + \kappa * \delta -\frac{\mu}{2c_s} v,
 
 where $\tau_0(x,y,t)$ incorporates the initial shear stress (imposed by the initial slip rate and state variable), and a possible external shear stressing, arising either from the boundary conditions, or from another mechanism. An external transient shear stress perturbation can be imposed, but has to be coded in routines tbp\_xxx.f90. $\kappa(x,y)$ is the stress interaction kernel, accounting for the stress redistribution associated with slip along the fault. $\kappa(x,y)$ depends on geometry of the fault and the boundary conditions. The convolution $\kappa * \delta$ is either computed using a spectral approach (infperiodic), a spectral approach avoiding the replication of the fault (cr, following \cite{Cochard1997}), or in the space domain (freesurface). $\mu$ is the shear modulus of the elastic medium, and $c_s$ the shear wave speed of the elastic medium.
 
+
+<figure>
+  <img src="./img/aspmodel.png" alt="my alt text"/>
+  <figcaption>Figure 1: Fault model geometry (left) and asperity structure of the fault (right). VW: velocity weakening, VS: velocity  strengthening. </figcaption>
+</figure>
+
+### Discretization
+
+The constitutive equations are solved using finite differences. For 3d configurations (2d fault), the fault plane is discretized in $n_x \times n_y$ rectangular cells of size $\Delta x \times \Delta y$ ordered columnwise (Figure \ref{fig2}). For 2d configurations (1d fault), $n_y=1$.
+
+<figure>
+  <img src="./img/xymodel.png" alt="my alt text"/>
+  <figcaption>Figure 2: Fault discretization for 2d faults (3d configurations). The colorscale indicates the numbering of the computational cells. 1d faults (2d configuration) follow the same convention, with $n_y=1$. </figcaption>
+</figure>
+
