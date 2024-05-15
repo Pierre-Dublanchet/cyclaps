@@ -1,7 +1,10 @@
+#--cyclaps makefile---#
 FC=mpif90
 FCFLAGS=-O5
+#--Indicate path to netcdf librairies below--#
 NETCDF=/usr
 NETCDFF=/usr
+#--------------------------------------------#
 INC_SF=./src/special_functions/
 GEOM=$(word 2, $(subst _, ,$(exec)))
 KERNEL=$(word 3, $(subst _, ,$(exec)))
