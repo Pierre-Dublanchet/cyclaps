@@ -1,4 +1,13 @@
-#--cyclaps makefile---#
+#---------------------------------------------------------#
+#                                                         #
+#                       CYCLAPS                           #
+#                                                         #
+# Copyright 2024 (c) Pierre Dublanchet                    #
+# Author: Pierre Dublanchet (Mines Paris PSL/Armines)     #
+# Contact: pierre.dublanchet@minesparis.psl.eu            #
+# License: CeCILL-B                                       #
+#                                                         #   
+#---------------------------------------------------------#
 FC=mpif90
 FCFLAGS=-O5
 #--Indicate path to netcdf librairies below--#
