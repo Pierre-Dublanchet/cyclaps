@@ -364,7 +364,7 @@ This will create an executable `fault_xxx`
 
 Go to the root of CYCLAPS folder. To execute fault model fault\_xxx:
 
-       >> mpiexec -n <np> fault_xxx
+       >> mpiexec -n <np> ./fault_xxx
 
 where `<np>` is the number of processes to use. The number of
 computational cells in *x* and *y* directions *n*<sub>*x*</sub> and
